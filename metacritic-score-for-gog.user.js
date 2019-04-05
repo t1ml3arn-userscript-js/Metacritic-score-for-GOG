@@ -75,7 +75,8 @@
 
 	/**
 	 * Returns integer which represents total user reviews
-	 * @param {JQueryObject} doc jQuery object
+	 * @param {Object} doc jQuery document object
+	 * @returns {Number}
 	 */
 	function getUserReviesCount(doc) {
 		const reg = /\d+/
