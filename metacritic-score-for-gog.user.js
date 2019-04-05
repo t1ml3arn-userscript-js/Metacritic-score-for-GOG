@@ -115,6 +115,66 @@
 		return parseInt(doc.find('.score_summary.metascore_summary a>span').text())
 	}
 
+	/**
+	 * Converts given object to string 
+	 * like `foo=bar&bizz=bazz`
+	 * @param {Object} obj 
+	 */
+	function objectToUrlArgs(obj) {
+		return Object.entries(obj)
+			.map(kv => `${kv[0]}=${kv[1]}`)
+			.join('&')
+	}
+
+	/**
+	 * Query metacritic autosearch api.
+	 * Returns Promise with an array with results objects.
+	 * Result object properties:
+	 * - url: link to page
+	 * - name: game name
+	 * - itemDate: release date (string ?)
+	 * - imagePath: url to cover image
+	 * - metaScore: critic score (int)
+	 * - scoreWord: like mixed, good, bad etc
+	 * - refType: item type, e.g "PC Game"
+	 * - refTypeId: type id, (string)
+	 * @param {String} query term for search
+	 * @returns {Promise}
+	 */
+	function autoSearch(query) {
+		return ajax({
+			url: 'https://www.metacritic.com/autosearch',
+			method: 'post',
+			data: objectToUrlArgs({ image_size: 98, search_term: query }),
+			responseType: 'json',
+			// Strictly recomended to watch Network log
+			// and get Request Headers from it
+			headers: {
+				"Origin": null,
+				"Referer": "https://www.metacritic.com",
+				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+				"X-Requested-With":	"XMLHttpRequest"
+			}
+		})
+		.then(response => JSON.parse(response.responseText).autoComplete)
+	}
+
+	/**
+	 * Queries metacritic search page with given query.
+	 * Returns Promise with `response` object.
+	 * Html code of the page can be read from `response.responseText`
+	 * @param {String} query term for search
+	 * @returns {Promise}
+	 */
+	function fullSearch(query) {
+		return ajax({
+			url: getSearhURL(query),
+			method: "GET",
+			headers: defaultHeaders,
+			context: { query }
+		})
+	}
+
 	// =============================================================
 	//
 	// 1. Кроссдоменный запрос к быстропоиску метакритика (FAIL)
