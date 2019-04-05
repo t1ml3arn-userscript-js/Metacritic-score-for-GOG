@@ -217,20 +217,15 @@
 	 searches "mass-effect" only in "game" for PC platform (plats[3]=1)
 
 	 */
-	
+
 	let game = 'mass effect'
-	ajax({
-		url: getSearhURL(game),
-		method: "GET",
-		headers: defaultHeaders,
-		context: { game }
-	})
+	fullSearch(game)
 		.then(response => {
 				const { context, responseText } = response
 				const results = parseSearchResults(responseText)
 
 				if (results.length == 0) {
-					throw `There is no game with title ${context.game}`
+					throw `There is no game with title ${context.query}`
 				}
 
 				// I have to sort results and this is not so easy,
@@ -240,7 +235,7 @@
 				// lets assume that GOG has correct game titles
 				// then we can get game from results with the same
 				// title as in search query
-				const ind = results.findIndex(result => result.title.toLowerCase()===context.game.toLowerCase())
+				const ind = results.findIndex(result => result.title.toLowerCase()===context.query.toLowerCase())
 				if (ind != -1) {
 					const res = results.splice(ind, 1)[0]
 					results.unshift(res)
