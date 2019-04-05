@@ -86,6 +86,24 @@
 		return count;
 	}
 
+	/**
+	 * Returns float which represents user score
+	 * @param {Object} doc jQuery document object
+	 * @returns {Number}
+	 */
+	function getUserScore(doc) {
+		return parseFloat(doc.find('.feature_userscore .metascore_w.user').eq(0).text())
+	}
+	
+	/**
+	 * Returns a number of crititc reviews
+	 * @param {Object} doc jQuery document object
+	 * @returns {Number}
+	 */
+	function getCriticReviewsCount(doc) {
+		return parseInt(doc.find('.score_summary.metascore_summary a>span').text())
+	}
+
 	// =============================================================
 	//
 	// 1. Кроссдоменный запрос к быстропоиску метакритика (FAIL)
@@ -197,9 +215,8 @@
 				const doc = $(new DOMParser().parseFromString(responseText, 'text/html'))
 
 				gameData.userReviewsCount = getUserReviesCount(doc)
-				///TODO move what is below to separate methods
-				gameData.userscore = parseFloat(doc.find('.feature_userscore .metascore_w.user').eq(0).text())
-				gameData.criticReviewsCount = parseInt(doc.find('.score_summary.metascore_summary a>span').text())
+				gameData.userscore = getUserScore(doc)
+				gameData.criticReviewsCount = getCriticReviewsCount(doc)
 				
 				console.log(gameData)
 
