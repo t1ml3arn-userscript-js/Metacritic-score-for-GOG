@@ -12,6 +12,12 @@
 
 (function () {
 
+	// =============================================================
+	//
+	// API section
+	//
+	// =============================================================
+
 	const defaultHeaders = {
 		"Origin": null,
 		"Referer": null,
@@ -177,46 +183,9 @@
 
 	// =============================================================
 	//
-	// 1. Кроссдоменный запрос к быстропоиску метакритика (FAIL)
+	// Code section
 	//
 	// =============================================================
-	
-	// Не получилось отправить кроссдоменный запрос.
-	// Потому, что нужно использовать Violentmonkey API
-	let args = {
-		url: "https://www.metacritic.com/autosearch",
-		method: "POST",
-		dataType: "json",
-		data: { image_size: 98, search_term: "mass effect"},
-		headers: {
-			"Origin": null,
-			"Referer": "https://www.metacritic.com/search/all/fallout/results"
-		},
-		beforeSend: (xhr) => {
-			xhr.setRequestHeader("Origin", null);
-			xhr.setRequestHeader("Referer", "https://www.metacritic.com/search/all/fallout/results");
-		},
-		crossDomain: true,
-	}
-	
-	// $.ajax(args).done( result => console.log(result) )
-
-	// =============================================================
-	//
-	// 2. Crossdomain request to the raw search page (not an API call)
-	//
-	// FAILED cause I cannot do corssdomain requests in userscript
-	// with standart API. I have to use special Violenmonkey API
-	//
-	// =============================================================
-
-	/**
-	
-	 https://www.metacritic.com/search/game/mass-effect/results?search_type=advanced&plats[3]=1
-
-	 searches "mass-effect" only in "game" for PC platform (plats[3]=1)
-
-	 */
 
 	let game = 'mass effect'
 	fullSearch(game)
