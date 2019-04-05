@@ -17,6 +17,17 @@
 		"Referer": null,
 	}
 
+	/**
+	 * Sends xmlHttpRequest via GM api (this allows crossdomain reqeusts).
+	 * NOTE Different userscript engines support different
+	 * details object format.
+	 * 
+	 * Violentmonkey @see https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest
+	 * 
+	 * Greasemonkey @see https://wiki.greasespot.net/GM.xmlHttpRequest
+	 * @param {Object} details @see ...
+	 * @returns {Promise}
+	 */
 	function ajax(details) {
 		return new Promise((resolve, reject) => {
 			details.onloadend = resolve
