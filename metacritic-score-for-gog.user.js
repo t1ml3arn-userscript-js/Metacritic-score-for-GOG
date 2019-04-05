@@ -146,14 +146,7 @@
 	 searches "mass-effect" only in "game" for PC platform (plats[3]=1)
 
 	 */
-
-	// =============================================================
-	//
-	// 3. Crossdomain request by SPECIAL API
-	//
-	// =============================================================
-
-	// Succeeded! I got the page.
+	
 	let game = 'mass effect'
 	ajax({
 		url: getSearhURL(game),
@@ -162,7 +155,6 @@
 		context: { game }
 	})
 		.then(response => {
-				// console.log(response)
 				const { context, responseText } = response
 				const results = parseSearchResults(responseText)
 
@@ -183,23 +175,14 @@
 					results.unshift(res)
 				}
 
-				// console.log('search results: ', results)
-
 				return results[0]
-				
-				/* 
-					What do you need ?
-					1. Name of the game
-					2. Critic score
-					3. link to page (to get user score)
-				*/
 			},
 				e => console.error("Network Error", e)
 		)
 		.then(gameData => {
-				// console.log('your game is', gameData)
 
-				// now I go to the user rating
+				// request to the game page to get
+				// user score and reviews count
 				return ajax({
 					url: gameData.pageurl,
 					method: 'GET',
@@ -219,9 +202,6 @@
 				gameData.criticReviewsCount = getCriticReviewsCount(doc)
 				
 				console.log(gameData)
-
-				// 75%, 16%, 9% (396)
-				// 85%, 10%, 5% (3005 reviews)
 			},
 				// catches error when fetching game page
 				e => console.error(e)
