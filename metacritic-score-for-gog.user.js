@@ -181,66 +181,84 @@
 		})
 	}
 
+	/**
+	 * Returns a resolved Promise with game data object on success
+	 * and rejected Promise on failure.
+	 * Game data object has these fields:
+	 * - title: Game title
+	 * - pageurl: Game page url
+	 * - platform: Game platform (pc, ps3 etc)
+	 * - year: Release year (int)
+	 * - meatascore: Critic score (int)
+	 * - criticReviewsCount: The number of critic reviews
+	 * - userscore: User score (float)
+	 * - userReviewsCount: The number of user reviews
+	 * - description: Description of the game
+	 * - queryString: Original query string
+	 * @param {String} gameName Game name
+	 */
+	function getGameData(gameName) {
+		return fullSearch(gameName)
+			.then(response => {
+					const { context, responseText } = response
+					const results = parseSearchResults(responseText)
+
+					if (results.length == 0) {
+						throw `There is no game with title ${context.query}`
+					}
+
+					// I have to sort results and this is not so easy,
+					// metacritic gives stupid order, e.g
+					// most relevant game for "mass effect" is ME: Andromeda,
+					// not the first Mass Effect game from 2007.
+					// lets assume that GOG has correct game titles
+					// then we can get game from results with the same
+					// title as in search query
+					const ind = results.findIndex(result => result.title.toLowerCase()===context.query.toLowerCase())
+					if (ind != -1) {
+						const res = results.splice(ind, 1)[0]
+						results.unshift(res)
+					}
+
+					return results[0]
+				},
+					e => console.error("Network Error", e)
+			)
+			.then(gameData => {
+
+					// request to the game page to get
+					// user score and reviews count
+					return ajax({
+						url: gameData.pageurl,
+						method: 'GET',
+						headers: defaultHeaders,
+						context: { gameData },
+					})
+				},
+					// catches error, if there is no such game
+					e => console.error(e)
+			).then(response => {
+					const { context, responseText } = response
+					const { gameData } = context
+					const doc = $(new DOMParser().parseFromString(responseText, 'text/html'))
+
+					gameData.userReviewsCount = getUserReviesCount(doc)
+					gameData.userscore = getUserScore(doc)
+					gameData.criticReviewsCount = getCriticReviewsCount(doc)
+					
+					return { ...gameData, queryString: gameName }
+				},
+					// catches error when fetching game page
+					e => console.error(e)
+			);
+	}
+
 	// =============================================================
 	//
 	// Code section
 	//
 	// =============================================================
-
-	let game = 'mass effect'
-	fullSearch(game)
-		.then(response => {
-				const { context, responseText } = response
-				const results = parseSearchResults(responseText)
-
-				if (results.length == 0) {
-					throw `There is no game with title ${context.query}`
-				}
-
-				// I have to sort results and this is not so easy,
-				// metacritic gives stupid order, e.g
-				// most relevant game for "mass effect" is ME: Andromeda,
-				// not the first Mass Effect game from 2007.
-				// lets assume that GOG has correct game titles
-				// then we can get game from results with the same
-				// title as in search query
-				const ind = results.findIndex(result => result.title.toLowerCase()===context.query.toLowerCase())
-				if (ind != -1) {
-					const res = results.splice(ind, 1)[0]
-					results.unshift(res)
-				}
-
-				return results[0]
-			},
-				e => console.error("Network Error", e)
-		)
-		.then(gameData => {
-
-				// request to the game page to get
-				// user score and reviews count
-				return ajax({
-					url: gameData.pageurl,
-					method: 'GET',
-					headers: defaultHeaders,
-					context: { gameData },
-				})
-			},
-				// catches error, if there is no such game
-				e => console.error(e)
-		).then(response => {
-				const { context, responseText } = response
-				const { gameData } = context
-				const doc = $(new DOMParser().parseFromString(responseText, 'text/html'))
-
-				gameData.userReviewsCount = getUserReviesCount(doc)
-				gameData.userscore = getUserScore(doc)
-				gameData.criticReviewsCount = getCriticReviewsCount(doc)
-				
-				console.log(gameData)
-			},
-				// catches error when fetching game page
-				e => console.error(e)
-		)
-
+	
+	getGameData('mass effect').then(data => console.log(data))
 	
 })();
