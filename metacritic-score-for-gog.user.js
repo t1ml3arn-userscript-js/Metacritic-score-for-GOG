@@ -8,6 +8,8 @@
 // @grant GM.xmlhttpRequest
 // @grant GM_xmlHttpRequest
 // @grant GM.xmlHttpRequest
+// @grant GM_addStyle
+// @grant GM.addStyle
 // ==/UserScript==
 
 (function () {
