@@ -191,7 +191,7 @@
 	 * - pageurl: Game page url
 	 * - platform: Game platform (pc, ps3 etc)
 	 * - year: Release year (int)
-	 * - meatascore: Critic score (int)
+	 * - metascore: Critic score (int)
 	 * - criticReviewsCount: The number of critic reviews
 	 * - userscore: User score (float)
 	 * - userReviewsCount: The number of user reviews
