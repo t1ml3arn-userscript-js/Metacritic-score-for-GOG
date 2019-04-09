@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name Metacritic score for GOG
 // @namespace https://github.com/T1mL3arn
-// @match https://gog.com/*
-// @match https://www.gog.com/*
+// @match https://gog.com/game/*
+// @match https://www.gog.com/game/*
 // @require https://code.jquery.com/jquery-3.3.1.min.js
 // @grant GM_xmlhttpRequest
 // @grant GM.xmlhttpRequest
