@@ -457,7 +457,7 @@
 	// Code section
 	//
 	// =============================================================
-	
-	getGameData('mass effect').then(data => console.log(data))
+
+	GM_addStyle(css).then(style => style.id = 'metacritic-for-gog')
 	
 })();
