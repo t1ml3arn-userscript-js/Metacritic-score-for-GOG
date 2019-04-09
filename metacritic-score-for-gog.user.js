@@ -460,4 +460,17 @@
 
 	GM_addStyle(css).then(style => style.id = 'metacritic-for-gog')
 	
+	// getting game title
+	const title = document.getElementsByClassName("productcard-basics__title")[0]
+
+	// process request to metacritic
+	getGameData(title.textContent).then(data => {
+		
+		const metascore = MetacriticScore(data) 
+		$('div[content-summary-section-id="productDetails"] > .details')
+			.append('<hr class="details__separator"/>')
+			.append(metascore)
+			.append('<hr class="details__separator"/>')
+	})
+	
 })();
