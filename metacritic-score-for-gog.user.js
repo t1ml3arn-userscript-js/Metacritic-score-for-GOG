@@ -382,6 +382,76 @@
 			);
 	}
 
+	function MetacriticLogo(props) {
+		let { reviewsUrl } = props
+
+		return `
+			<div class="mcg-logo">
+				<div class="mcg-logo__img" title="metacritic logo"></div>
+				<p>
+					metacritic
+					<a href=${ reviewsUrl || "#" } target="_blank" rel="noopener noreferer">
+						Read reviews
+						<img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22%3E %3Cpath fill=%22%23fff%22 stroke=%22%2336c%22 d=%22M1.5 4.518h5.982V10.5H1.5z%22/%3E %3Cpath fill=%22%2336c%22 d=%22M5.765 1H11v5.39L9.427 7.937l-1.31-1.31L5.393 9.35l-2.69-2.688 2.81-2.808L4.2 2.544z%22/%3E %3Cpath fill=%22%23fff%22 d=%22M9.995 2.004l.022 4.885L8.2 5.07 5.32 7.95 4.09 6.723l2.882-2.88-1.85-1.852z%22/%3E %3C/svg%3E" />
+					</a>
+				</p>
+			</div>
+		`
+	}
+
+	function getScoreColor(score) {
+		// tbd - gray
+		// 0-49 - red
+		// 50-74 - yellow
+		// 75 - 100 - green
+	
+		if (score === 'tbd' || score !== score)
+			// default bg color is already present in css
+			return ''
+		else {
+			// convert score to 100 scale
+			if (Math.floor(score) !== score) score = score * 10
+			if (score < 50)			return 'mcg-score--bad'
+			else if (score < 75)	return 'mcg-score--mixed'
+			else					return 'mcg-score--good'
+		}
+	}
+
+	function ScoreSummary(props) {
+		const { score, scoreLabel, scoreTypeClass } = props
+		const scoreText = (score !== score) ? "tbd" : score;
+		const scoreEltClass = `"mcg-score-summary__score ${scoreTypeClass} ${ getScoreColor(score) }"`
+		
+		return `
+			<div class="mcg-score-summary">
+				<span class=${ scoreEltClass }>${ scoreText }</span>
+				<span class="mcg-score-summary__label">${ scoreLabel }</span>
+			</div>
+		`
+	}
+
+	function MetacriticScore(props) {
+		const { metascore, userscore, pageurl } = props;
+
+		return `
+		<div class='mcg-wrap'>
+			${ ScoreSummary({ 
+				score: userscore, 
+				scoreLabel: 'User Score', 
+				scoreTypeClass: 'mcg-score-summary__score--circle' 
+				}) 
+			}
+			${ ScoreSummary({ 
+				score: metascore, 
+				scoreLabel: 'Meta Score',
+				scoreTypeClass: ""
+				})
+			}
+			${ MetacriticLogo({ reviewsUrl: pageurl }) }
+		</div>
+		`
+	}
+
 	// =============================================================
 	//
 	// Code section
