@@ -1,0 +1,125 @@
+.mcg-wrap {
+	/* Base size for all icons */
+	--size: 80px;
+
+	display: flex;
+	flex-flow: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+
+	width: auto;
+	padding: 4px;
+	border: 1px solid #777;
+	box-sizing: border-box;
+}
+
+.mcg-wrap * {
+	all: unset;
+	box-sizing: border-box;
+}
+
+.mcg-score-summary {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: flex-start;
+	align-items: center;
+
+	margin: 0 2px 0 2px;
+}
+
+.mcg-score-summary__score {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+
+	min-width: calc(var(--size) * 0.5);
+	min-height: calc(var(--size) * 0.5);
+	width: calc(var(--size) * 0.5);
+	height: calc(var(--size) * 0.5);
+	margin: 0 4px 0 4px;
+
+	background-color: #0f0;
+	background-color: #c0c0c0;
+	border-radius: 6px;
+	font-family: sans-serif;
+	
+	font-size: 1.2em;
+	font-weight: bold;
+	color: white;
+}
+
+.mcg-score--bad {
+	background-color: #f00;
+	color: white;
+}
+
+.mcg-score--mixed {
+	background-color: #fc3;
+	color: #111;
+}
+
+.mcg-score--good {
+	background-color: #6c3;
+	color: white;
+}
+
+.mcg-score-summary__score--circle {
+	border-radius: 50%;
+}
+
+.mcg-score-summary .mcg-score-summary__label {
+	align-self: flex-start;
+	align-self: center;
+	
+	max-width: 50px;
+
+	font-size: 0.9em;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: left;
+	text-align: center;
+}
+
+.mcg-logo {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+}
+
+.mcg-logo__img {
+  	background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/200px-Metacritic.svg.png);
+  	background-position: center center;
+	background-size: cover;
+	
+	min-width: calc(var(--size) * 0.5);
+	min-height: calc(var(--size) * 0.5);
+  	width: calc(var(--size) * 0.5);
+	height: calc(var(--size) * 0.5);
+}
+
+.mcg-logo p {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+
+	margin: 4px 6px;
+
+	font-family: sans-serif;
+	font-size: 22px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.mcg-logo p > a {
+	cursor: pointer;
+	padding-right: 14px;
+	
+	text-decoration: underline;
+	font-size: 0.65em;
+	font-size: 14px;
+	font-weight: normal;
+	color: #36c;
+}
