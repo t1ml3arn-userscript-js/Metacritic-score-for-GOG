@@ -1,6 +1,6 @@
 # Script name
 
-GOG Metacritic Score
+Metacritic score for GOG
 
 ## Script description
 
