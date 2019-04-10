@@ -1,5 +1,8 @@
 // ==UserScript==
 // @name Metacritic score for GOG
+// @description Adds metacritic score to GOG game's page
+// @version 1.0
+// @author T1mL3arn
 // @namespace https://github.com/T1mL3arn
 // @match https://gog.com/game/*
 // @match https://www.gog.com/game/*
