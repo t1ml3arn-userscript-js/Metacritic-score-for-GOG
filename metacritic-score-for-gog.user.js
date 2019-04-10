@@ -444,13 +444,13 @@
 		<div class='mcg-wrap'>
 			${ ScoreSummary({ 
 				score: userscore, 
-				scoreLabel: 'User Score', 
+				scoreLabel: 'User score', 
 				scoreTypeClass: 'mcg-score-summary__score--circle' 
 				}) 
 			}
 			${ ScoreSummary({ 
 				score: metascore, 
-				scoreLabel: 'Meta Score',
+				scoreLabel: 'Meta score',
 				scoreTypeClass: ""
 				})
 			}
