@@ -4,6 +4,7 @@
 // @version 1.0
 // @author T1mL3arn
 // @namespace https://github.com/T1mL3arn
+// @icon https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/88px-Metacritic.svg.png
 // @match https://gog.com/game/*
 // @match https://www.gog.com/game/*
 // @require https://code.jquery.com/jquery-3.3.1.min.js
@@ -14,6 +15,8 @@
 // @grant GM_addStyle
 // @grant GM.addStyle
 // @license GPLv3
+// @homepageURL https://github.com/t1ml3arn-userscript-js/Metacritic-score-for-GOG
+// @supportURL https://github.com/t1ml3arn-userscript-js/Metacritic-score-for-GOG/issues
 // ==/UserScript==
 
 (function () {
