@@ -37,6 +37,41 @@
 // ==/UserScript==
 
 (function () {
+	// =============================================================
+	//
+	// Greasemonkey polyfill
+	//
+	// =============================================================
+	
+	// probably it is Greasemonkey
+	if (typeof GM !== 'undefined') {
+		if (typeof GM.info !== 'undefined')
+			window.GM_info = GM.info;
+
+		// VM has GM_xmlhttpRequest but GM has GM_xmlHttpRequest
+		// Mad mad world !
+		if (typeof GM.xmlHttpRequest !== 'undefined') {
+			window.GM_xmlhttpRequest = GM.xmlHttpRequest
+		}
+    
+    	// addStyle
+		window.GM_addStyle = function(css) {
+			return new Promise((resolve, reject) => {
+				try {
+					let style = document.head.appendChild(document.createElement('style'))
+					style.type = 'text/css'
+					style.textContent = css;
+					resolve(style)
+				} catch(e) {
+					console.error(`It is not possible to add style with GM_addStyle()`)
+					reject(e)
+				}
+			})
+		}
+	}
+
+	//console.log(`[${GM_info.scriptHandler}][${GM_info.script.name} v${GM_info.script.version}] inited`)
+	
 
 	// =============================================================
 	//
