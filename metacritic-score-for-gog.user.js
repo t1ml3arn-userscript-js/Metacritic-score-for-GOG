@@ -10,6 +10,7 @@
 // @grant GM.xmlHttpRequest
 // @grant GM_addStyle
 // @grant GM.addStyle
+// @license GPLv3
 // ==/UserScript==
 
 (function () {
