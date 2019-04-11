@@ -209,6 +209,7 @@
 	const defaultHeaders = {
 		"Origin": null,
 		"Referer": null,
+		"Cache-Control": "max-age=3600",
 	}
 
 	/**
