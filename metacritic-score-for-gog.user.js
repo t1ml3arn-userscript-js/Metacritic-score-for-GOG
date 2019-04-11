@@ -18,7 +18,7 @@
 // ==UserScript==
 // @name Metacritic score for GOG
 // @description Adds metacritic score to GOG game's page
-// @version 1.1
+// @version 1.1.1
 // @author T1mL3arn
 // @namespace https://github.com/T1mL3arn
 // @icon https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/88px-Metacritic.svg.png
@@ -468,22 +468,39 @@
 			// default bg color is already present in css
 			return ''
 		else {
-			// convert score to 100 scale
-			if (Math.floor(score) !== score) score = score * 10
 			if (score < 50)			return 'mcg-score--bad'
 			else if (score < 75)	return 'mcg-score--mixed'
 			else					return 'mcg-score--good'
 		}
 	}
 
+	/**
+	 * Converts user score value to its string representation.
+	 * @param {Number} score user score
+	 * @returns {String} a string in format like "7.0" or "8.8",
+	 * or "tbd" if a given score is NaN 
+	 */
+	function formatUserScore(score) {
+		return score !== score ? 'tbd' : score.toFixed(1)
+	}
+
+	/**
+	 * Converts critic score to its string representation.
+	 * @param {Number} score critic score 
+	 * @returns {String} a string like "98" or "100",
+	 * or "tbd" if a given score is NaN
+	 */
+	function formatMetaScore(score) {
+		return score !== score ? 'tbd' : score
+	}
+
 	function ScoreSummary(props) {
-		const { score, scoreLabel, scoreTypeClass } = props
-		const scoreText = (score !== score) ? "tbd" : score;
-		const scoreEltClass = `"mcg-score-summary__score ${scoreTypeClass} ${ getScoreColor(score) }"`
+		const { score, scoreLabel, scoreTypeClass, scoreColorClass } = props
+		const scoreEltClass = `"mcg-score-summary__score ${scoreTypeClass} ${scoreColorClass}"`
 		
 		return `
 			<div class="mcg-score-summary">
-				<span class=${ scoreEltClass }>${ scoreText }</span>
+				<span class=${ scoreEltClass }>${ score }</span>
 				<span class="mcg-score-summary__label">${ scoreLabel }</span>
 			</div>
 		`
@@ -495,15 +512,17 @@
 		return `
 		<div class='mcg-wrap'>
 			${ ScoreSummary({ 
-				score: userscore, 
+				score: formatUserScore(userscore), 
 				scoreLabel: 'User score', 
-				scoreTypeClass: 'mcg-score-summary__score--circle' 
+				scoreTypeClass: 'mcg-score-summary__score--circle',
+				scoreColorClass: getScoreColor(userscore * 10),
 				}) 
 			}
 			${ ScoreSummary({ 
-				score: metascore, 
+				score: formatMetaScore(metascore), 
 				scoreLabel: 'Meta score',
-				scoreTypeClass: ""
+				scoreTypeClass: '',
+				scoreColorClass: getScoreColor(metascore),
 				})
 			}
 			${ MetacriticLogo({ reviewsUrl: pageurl }) }
