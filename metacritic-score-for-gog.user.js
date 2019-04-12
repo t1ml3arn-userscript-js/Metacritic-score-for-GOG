@@ -434,8 +434,7 @@
 						console.error('Metacritic results:', results)
 						throw `There are results, but can't find game "${context.query}" on www.metacritic.com`
 					}
-				},
-					e => console.error("Network Error", e)
+				} /* Network error */
 			)
 			.then(gameData => {
 
@@ -447,9 +446,7 @@
 						headers: defaultHeaders,
 						context: { gameData },
 					})
-				},
-					// catches error, if there is no such game
-					e => console.error(e)
+				} /* catch error, if there is no such game */
 			).then(response => {
 					const { context, responseText } = response
 					const { gameData } = context
@@ -460,9 +457,7 @@
 					gameData.criticReviewsCount = getCriticReviewsCount(doc)
 					
 					return { ...gameData, queryString: gameName }
-				},
-					// catches error when fetching game page
-					e => console.error(e)
+				} /* catches error when fetching game page */
 			);
 	}
 
