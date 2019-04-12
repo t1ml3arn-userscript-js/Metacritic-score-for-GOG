@@ -18,7 +18,7 @@
 // ==UserScript==
 // @name Metacritic score for GOG
 // @description Adds metacritic score to GOG game's page
-// @version 1.1.1
+// @version 1.2
 // @author T1mL3arn
 // @namespace https://github.com/T1mL3arn
 // @icon https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/88px-Metacritic.svg.png
