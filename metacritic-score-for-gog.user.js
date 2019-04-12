@@ -301,6 +301,10 @@
 		return parseFloat(doc.find('.feature_userscore .metascore_w.user').eq(0).text())
 	}
 	
+	function getMetascore(doc) {
+		return parseInt(doc.find('.metascore_summary .metascore_w span').text())
+	}
+
 	/**
 	 * Returns a number of crititc reviews
 	 * @param {Object} doc jQuery document object
@@ -308,6 +312,24 @@
 	 */
 	function getCriticReviewsCount(doc) {
 		return parseInt(doc.find('.score_summary.metascore_summary a>span').text())
+	}
+
+	function parseDataFromGamePage(html) {
+		const doc = $(new DOMParser().parseFromString(html, 'text/html'))
+		
+		const yearReg = /\d{4}/
+		let year = yearReg.exec(doc.find('.release_data .data').text())
+		year = year == null ? 0 : year[0]
+
+		return {
+			title: doc.find('.product_title h1').text(),
+			platform: doc.find('.platform a').text(),
+			year,
+			metascore: getMetascore(doc),
+			criticReviewsCount: getCriticReviewsCount(doc),
+			userscore: getUserScore(doc),
+			userReviewsCount: getUserReviesCount(doc),
+		}
 	}
 
 	/**
@@ -531,6 +553,14 @@
 		`
 	}
 
+	function showMetacriticScoreElt(gameData) {
+		const metascore = MetacriticScore(gameData) 
+		$('div[content-summary-section-id="productDetails"] > .details')
+			.append('<hr class="details__separator"/>')
+			.append(metascore)
+			.append('<hr class="details__separator"/>')
+	}
+
 	// =============================================================
 	//
 	// Code section
@@ -538,6 +568,32 @@
 	// =============================================================
 
 	GM_addStyle(css).then(style => style.id = 'metacritic-for-gog')
+	
+	// get game name from page's url
+	let gameNameFromUrl = window.location.pathname
+		.replace('/game/', '')
+		.replace(/_/g, '-')
+	
+	// first trying to get the same game page from metacritic
+	ajax({
+		url: `https://www.metacritic.com/game/pc/${gameNameFromUrl}`,
+		method: "GET",
+		headers: defaultHeaders,
+	}).then(response => {
+		const { responseText, finalUrl, status } = response
+		
+		if (status === 200) {
+			const gameData = {
+				...parseDataFromGamePage(responseText),
+				pageurl: finalUrl
+			}
+
+			showMetacriticScoreElt(gameData)
+		}
+		else if (status === 404)
+			/// TODO... 
+			return 'TODO'
+	}, e => console.error('Error', e))
 	
 	// getting game title
 	const title = document.getElementsByClassName("productcard-basics__title")[0]
