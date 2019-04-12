@@ -34,6 +34,7 @@
 // @license GPLv3
 // @homepageURL https://github.com/t1ml3arn-userscript-js/Metacritic-score-for-GOG
 // @supportURL https://github.com/t1ml3arn-userscript-js/Metacritic-score-for-GOG/issues
+// @run-at document-start
 // ==/UserScript==
 
 (function () {
