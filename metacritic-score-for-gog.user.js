@@ -585,6 +585,8 @@
 	//
 	// =============================================================
 
+	const documentReady = new Promise((resolve, rej) => $(document).ready(resolve))
+
 	GM_addStyle(css).then(style => style.id = 'metacritic-for-gog')
 	
 	// get game name from page's url
@@ -606,24 +608,21 @@
 				pageurl: finalUrl
 			}
 
-			showMetacriticScoreElt(gameData)
+			documentReady.then(() => showMetacriticScoreElt(gameData))
 		}
-		else if (status === 404)
-			/// TODO... 
-			return 'TODO'
-	}, e => console.error('Error', e))
-	
-	// getting game title
-	const title = document.getElementsByClassName("productcard-basics__title")[0]
+		else if (status === 404) {
 
-	// process request to metacritic
-	getGameData(title.textContent).then(data => {
+			documentReady.then(() => {
+				const productId = $(document).find('div[card-product]').attr('card-product')
 		
-		const metascore = MetacriticScore(data) 
-		$('div[content-summary-section-id="productDetails"] > .details')
-			.append('<hr class="details__separator"/>')
-			.append(metascore)
-			.append('<hr class="details__separator"/>')
-	})
+				// get product details from gog api
+				getGOGProductDetails(productId, 'en')
+					.then(details => details.title)
+					.then(getMetacriticGameDetails)
+					.then(showMetacriticScoreElt)
+			})
+
+		}
+	}, e => console.error('Error', e))
 	
 })();
