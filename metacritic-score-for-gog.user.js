@@ -582,7 +582,7 @@
 
 	const documentReady = new Promise((resolve, rej) => $(document).ready(resolve))
 
-	GM_addStyle(css).then(style => style.id = 'metacritic-for-gog')
+	documentReady.then(() => GM_addStyle(css))
 	
 	// get game name from page's url
 	let gameNameFromUrl = window.location.pathname
