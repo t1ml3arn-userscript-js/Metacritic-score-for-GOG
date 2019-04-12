@@ -466,6 +466,22 @@
 			);
 	}
 
+	/**
+	 * Get gog product details via REST api
+	 * @see https://gogapidocs.readthedocs.io/en/latest/galaxy.html#get--products-(int-product_id)
+	 * @param {String} productId 
+	 * @param {String} locale
+	 * @returns {Promise} fullfiled with json object
+	 */
+	function getGOGProductDetails(productId, locale) {
+		return ajax({
+			url: `https://api.gog.com/products/${productId}?locale=${locale}`,
+			method: 'get',
+			defaultHeaders: { 'Cache-Control': 'max-age=3600' },
+			responseType: 'json',
+		}).then(response => JSON.parse(response.responseText))
+	}
+
 	function MetacriticLogo(props) {
 		let { reviewsUrl } = props
 
