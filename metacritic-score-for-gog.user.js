@@ -408,30 +408,32 @@
 	 * - queryString: Original query string
 	 * @param {String} gameName Game name
 	 */
-	function getGameData(gameName) {
+	function getMetacriticGameDetails(gameName) {
 		return fullSearch(gameName)
 			.then(response => {
 					const { context, responseText } = response
 					const results = parseSearchResults(responseText)
 
 					if (results.length == 0) {
-						throw `There is no game with title ${context.query}`
+						throw `Can't find game "${context.query}" on www.metacritic.com`
 					}
 
-					// I have to sort results and this is not so easy,
+					// I have to find the game in results and this is not so easy,
 					// metacritic gives stupid order, e.g
 					// most relevant game for "mass effect" is ME: Andromeda,
 					// not the first Mass Effect game from 2007.
 					// lets assume that GOG has correct game titles
+					// (which is not always true)
 					// then we can get game from results with the same
 					// title as in search query
 					const ind = results.findIndex(result => result.title.toLowerCase()===context.query.toLowerCase())
-					if (ind != -1) {
-						const res = results.splice(ind, 1)[0]
-						results.unshift(res)
+					
+					if (ind != -1) 
+						return results[ind]
+					else {
+						console.error('Metacritic results:', results)
+						throw `There are results, but can't find game "${context.query}" on www.metacritic.com`
 					}
-
-					return results[0]
 				},
 					e => console.error("Network Error", e)
 			)
