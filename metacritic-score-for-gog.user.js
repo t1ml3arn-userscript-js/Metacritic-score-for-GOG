@@ -225,7 +225,7 @@
 	 */
 	function ajax(details) {
 		return new Promise((resolve, reject) => {
-			details.onloadend = resolve
+			details.onload = resolve
 			details.onerror = reject
 			GM_xmlhttpRequest(details)
 		}) 
