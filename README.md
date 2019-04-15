@@ -1,8 +1,6 @@
-# Script name
+# Metacritic score for GOG
 
-Metacritic score for GOG
-
-## Script description
+## Description
 
 The sript adds metacritic score to GOG game's page
 
