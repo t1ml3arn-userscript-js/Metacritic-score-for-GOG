@@ -18,7 +18,7 @@
 // ==UserScript==
 // @name Metacritic score for GOG
 // @description Adds metacritic score to GOG game's page
-// @version 1.2
+// @version 1.2.1
 // @author T1mL3arn
 // @namespace https://github.com/T1mL3arn
 // @icon https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/88px-Metacritic.svg.png
@@ -246,7 +246,8 @@
 
 	/**
 	 * Returns an array of search results from given html code
-	 * @param {String} html Raw html from which seach results will be parsed
+	 * @param {String} html Raw html from which search results will be parsed
+	 * @returns {Array} array of objects
 	 */
 	function parseSearchResults(html) {
 		
