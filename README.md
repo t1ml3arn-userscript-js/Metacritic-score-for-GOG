@@ -6,7 +6,7 @@ The sript adds metacritic score to GOG game's page
 
 ![metacritic score on gog game's page](metacritic-score-on-gog-page.png)
 
-- **NOTE**: Due to game's title mismatch it is possible the script will get nothing from metacritic. In such a case the script won't add any elements to the GOG page.
+- **NOTE**: In case when the script gets nothing from metacritic.com then the script won't add anything to the GOG game's page.
 
 ## How to install the script
 
